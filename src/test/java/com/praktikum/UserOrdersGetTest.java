@@ -45,15 +45,8 @@ public class UserOrdersGetTest {
     @Description("Get User orders wih authorization.")
     public void testGetAuthorizedUserOrdersListSuccessfull() throws Exception {
        Integer id1 = Utils.createAnOrder(token, 2);
-        System.out.println("id Order 1 = " + id1);
-
         Integer id2 = Utils.createAnOrder(token, 3);
-        System.out.println("id Order 2 = " + id2);
         Response getUserOrders = UserClient.sendGetUserOrderList(token);
-
-        System.out.println( "orders= "+getUserOrders.then().extract().path("orders").toString());
-        System.out.println("total= " + getUserOrders.then().extract().path("total").toString());
-        System.out.println( "totalToday= "+getUserOrders.then().extract().path("totalToday").toString());
         int userTotalOrdersToday = getUserOrders.then().extract().path("totalToday");
         Assert.assertEquals("Total orders of the new user today doesn't equals to", 2, userTotalOrdersToday);
     }
@@ -63,10 +56,7 @@ public class UserOrdersGetTest {
     @Description("GetUser Orders failed because authorization is absent.")
     public void testGetNonAuthorizedUserOrdersListFailed() throws Exception {
         Integer id1 = Utils.createAnOrder(token, 2);
-        System.out.println("id Order 1 = " + id1);
-
         Integer id2 = Utils.createAnOrder(token, 3);
-        System.out.println("id Order 2 = " + id2);
 
         Response getUserOrders = given()
                 .header("Content-type","application/json")
@@ -74,14 +64,9 @@ public class UserOrdersGetTest {
                 .when()
                 .get("/api/orders");
 
-
-
         int statusCodeResponce = getUserOrders.then().extract().statusCode();
         Assert.assertEquals("Total orders of the new user today doesn't equals to", 401, statusCodeResponce);
     }
-
-
-
 
     @After
     public void clearUsers(){

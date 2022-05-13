@@ -10,7 +10,6 @@ public class UserAuthorization {
         this.email = email;
     }
 
-
     public String getPassword() {
         return password;
     }

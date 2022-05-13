@@ -35,12 +35,8 @@ public class UserOrderTest {
         signsQuantity = 7;
         userData = Utils.getUserData(userDataSetQuantity, signsQuantity);
         user = new User(userData.get(0), userData.get(1), userData.get(2));
-
         userCreateResponse = UserClient.sendPostRegisterUser(user);
         token = userCreateResponse.then().extract().path("accessToken");
-        System.out.println(userData.get(0) + " " + userData.get(1) + " " + userData.get(2) + "\n" + token);
-
-
     }
 
 
@@ -58,7 +54,7 @@ public class UserOrderTest {
 
         Order order = new Order(ingredientsId);
         Response orderCreateResponce = UserClient.sendPostOrderCreate(order,token);
-        Assert.assertEquals("Order has not created",true,orderCreateResponce.then().extract().path("success"));
+        Assert.assertEquals("Authorized user has not created  Order with two ingredients ",true,orderCreateResponce.then().extract().path("success"));
     }
 
     @Test
@@ -66,15 +62,13 @@ public class UserOrderTest {
     @Description("Create one order wih authorization with all ingredients")
     public void testOrderCreateAllIngredients() throws Exception {
         List<String> ingredientsId;
-
         ingredientsId = Utils.getIngredient(DataBase.ingredientsMap().size(),null);
         for(int i=0; i< ingredientsId.size(); i++) {
             System.out.println(ingredientsId.get(i));
         }
-
         Order order = new Order(ingredientsId);
         Response orderCreateResponce = UserClient.sendPostOrderCreate(order,token);
-        Assert.assertEquals("Order has not created",true,orderCreateResponce.then().extract().path("success"));
+        Assert.assertEquals("Authorized user has not created  Order with all possible ingredients",true,orderCreateResponce.then().extract().path("success"));
     }
 
 
@@ -83,7 +77,6 @@ public class UserOrderTest {
     @Description("Order  can't be created without ingredients wih authorization ")
     public void testOrderIngredientsNullFailed() {
         List<String> ingredientsId = null;
-
         Order order = new Order(ingredientsId);
         Response orderCreateResponce = UserClient.sendPostOrderCreate(order,token);
         Assert.assertEquals("Order shouldn't be created if ingredients key in body request equals to null ",
@@ -92,7 +85,7 @@ public class UserOrderTest {
 
 
     @Test
-    @DisplayName("Order failed.Access token incorrect value") // создается с неверным токеном
+    @DisplayName("Order failed.Access token incorrect value")
     @Description("Order  creatation failed without authorization:")
     public void testOrderCreateAuthorizationIncorrectFailed() throws Exception {
         List<String> ingredientsId;
@@ -110,7 +103,7 @@ public class UserOrderTest {
     }
 
     @Test
-    @DisplayName("Order failed.Authorization absent in request") // создается с неверным токеном
+    @DisplayName("Order failed.Authorization absent in request")
     @Description("Order  creation failed because authorization absent in request")
     public void testOrderCreateAuthorizationAbsentFailed() throws Exception {
         List<String> ingredientsId;
@@ -129,7 +122,7 @@ public class UserOrderTest {
                 .when()
                 .post("/api/orders");
 
-        Assert.assertEquals("Order has not created",false,orderCreateResponse.then().extract().path("success"));
+        Assert.assertEquals("Unauthorized order shouldn't be created ",false,orderCreateResponse.then().extract().path("success"));
     }
 
 

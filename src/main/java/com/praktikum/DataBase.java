@@ -1,10 +1,11 @@
 package com.praktikum;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class DataBase {
-    public static HashMap<String,String> ingredientsMap () {
-        HashMap<String,String> ingredients = new HashMap<>();
+    public static Map<String,String> ingredientsMap () {
+        Map<String,String> ingredients = new HashMap<>();
         ingredients.put("Флюоресцентная булка R2-D3","61c0c5a71d1f82001bdaaa6d");
         ingredients.put("Краторная булка N-200i","61c0c5a71d1f82001bdaaa6c");
         ingredients.put("Мясо бессмертных моллюсков Protostomia","61c0c5a71d1f82001bdaaa6f");

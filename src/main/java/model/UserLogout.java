@@ -5,7 +5,6 @@ public class UserLogout {
 
     public UserLogout (String token){
         this.token = token;
-
     }
 
     public String getToken() {

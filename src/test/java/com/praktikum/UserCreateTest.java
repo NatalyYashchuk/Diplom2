@@ -33,8 +33,6 @@ public class UserCreateTest {
 
         userCreateResponse = UserClient.sendPostRegisterUser(user);
         token = userCreateResponse.then().extract().path("accessToken");
-        System.out.println(userData.get(0) + " " + userData.get(1) + " " + userData.get(2) + "\n" + token);
-
     }
 
     @Test
@@ -60,7 +58,6 @@ public class UserCreateTest {
     public void testUserCreateFailedEmailIsEmpty() {
         user = new User(" ", userData.get(1), userData.get(2));
         Response userCreateResponse = UserClient.sendPostRegisterUser(user);
-
         Boolean success = userCreateResponse.then().extract().path("success");
         Assert.assertEquals("Email is empty. User creation result should be false",false, success);
     }
@@ -71,7 +68,6 @@ public class UserCreateTest {
     public void testUserCreateFailedEmailIsNull() {
         user = new User(null, userData.get(1), userData.get(2));
         Response userSameCreateResponse = UserClient.sendPostRegisterUser(user);
-
         Boolean success = userSameCreateResponse.then().extract().path("success");
         Assert.assertEquals("Email is null. User creation result should be false",false, success);
     }
@@ -82,7 +78,6 @@ public class UserCreateTest {
     public void testUserCreateFailedPasswordIsEmpty() {
         user = new User(userData.get(0), " ", userData.get(2));
         Response userSameCreateResponse = UserClient.sendPostRegisterUser(user);
-
         Boolean success = userSameCreateResponse.then().extract().path("success");
         Assert.assertEquals("Password is empty. User creation result should be false",false, success);
     }
@@ -93,7 +88,6 @@ public class UserCreateTest {
     public void testUserCreateFailedPasswordIsNull() {
         user = new User(userData.get(0), null, userData.get(2));
         Response userSameCreateResponse = UserClient.sendPostRegisterUser(user);
-
         Boolean success = userSameCreateResponse.then().extract().path("success");
         Assert.assertEquals("Password is null. User creation result should be false",false, success);
     }

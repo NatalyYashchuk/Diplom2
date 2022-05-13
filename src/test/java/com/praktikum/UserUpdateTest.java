@@ -46,9 +46,6 @@ public class UserUpdateTest {
         userCreateResponse = UserClient.sendPostRegisterUser(user);                  //create
         token = userCreateResponse.then().extract().path("accessToken");
         refreshToken = userCreateResponse.then().extract().path("refreshToken");
-        System.out.println(userData.get(0) + " " + userData.get(1) + " " + userData.get(2) + "\n" + token +"\n" + "\n"
-                +userData.get(3) + " " + userData.get(4) + " " + userData.get(5));
-
     }
 
     @Test
@@ -60,7 +57,6 @@ public class UserUpdateTest {
         refreshToken = userLoginResponse.then().extract().path("refreshToken");
 
         Response userUpdateResponse = UserClient.sendPatchUpdateUserData(updateDataModel, token, true);
-        System.out.println("token=" + authorizationToken);
 
         String updatedEmail = userUpdateResponse.then().extract().path("user.email");
         String updatedName = userUpdateResponse.then().extract().path("user.name");

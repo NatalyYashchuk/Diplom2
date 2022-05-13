@@ -9,6 +9,7 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Utils {
 
@@ -36,7 +37,7 @@ public class Utils {
         }
 
         List<String> ingredientsList = new ArrayList<>();
-        HashMap<String,String> ingredients = DataBase.ingredientsMap();
+        Map<String,String> ingredients = DataBase.ingredientsMap();
 
         int iterration = 0;
         if(quantity.equals(0)) {
