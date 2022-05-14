@@ -72,7 +72,7 @@ public class UserUpdateTest {
     }
 
     @Test
-    @DisplayName("Authorized user updates credetials successfully /api/auth/register")
+    @DisplayName("Unauthorized user update credetials failed /api/auth/register")
     @Description("User send patch request without authorization token")
     public void testNonAuthorizedUserDataUpdateFailed() {
         Response userUpdateResponse = UserClient.sendPatchUpdateUserData(updateDataModel, token, false);
@@ -83,7 +83,9 @@ public class UserUpdateTest {
 
     @After
     public void clearUsers(){
-        UserClient.sendDeleteUser(token);
+        if(token != null) {
+            UserClient.sendDeleteUser(token);
+        }
     }
 
 }

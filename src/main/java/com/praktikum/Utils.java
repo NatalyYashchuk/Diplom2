@@ -13,8 +13,6 @@ import java.util.Map;
 
 public class Utils {
 
-    private static Exception ex;
-
     public static ArrayList<String> getUserData(Integer quantity, Integer signs){
         ArrayList<String> userDataArray = new ArrayList<>();
 
@@ -31,9 +29,8 @@ public class Utils {
     }
 
     public static ArrayList<String> getIngredient(Integer quantity, List<String> byName) throws Exception {
-
             if(quantity > DataBase.ingredientsMap().size()){
-                throw ex;
+                throw  new Exception("Requested quantity is more than ingredients quantity");
         }
 
         List<String> ingredientsList = new ArrayList<>();
@@ -52,7 +49,6 @@ public class Utils {
                     break;
                 }
             }
-
         }
         return (ArrayList<String>) ingredientsList;
     }

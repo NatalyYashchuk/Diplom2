@@ -7,10 +7,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import model.Order;
 import model.User;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,10 +70,10 @@ public class UserOrderTest {
 
 
     @Test
-    @DisplayName("Order failed. Ingredients = null. ")
+    @DisplayName("Order failed. Ingredients = empty. ")
     @Description("Order  can't be created without ingredients wih authorization ")
     public void testOrderIngredientsNullFailed() {
-        List<String> ingredientsId = null;
+        List<String> ingredientsId = new ArrayList<>();
         Order order = new Order(ingredientsId);
         Response orderCreateResponce = UserClient.sendPostOrderCreate(order,token);
         Assert.assertEquals("Order shouldn't be created if ingredients key in body request equals to null ",
@@ -97,9 +94,12 @@ public class UserOrderTest {
         ingredientsId = Utils.getIngredient(0,ingrenientsNames);
 
         Order order = new Order(ingredientsId);
-        String tokenIncorrect = "tokenAbsent";
+
+
+        String tokenIncorrect = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNmJjM2NkOTk5ZmIyMDAxYjZlNTU2YyIsImlhdCI6MTY1MTIyOTY0NSwiZXhwIjoxNjUxMjMwODQ1fQ.tzsULOfSVi2E2TD-qyp_-jVwlfsES3SQppl17pxMhAA";
+
         Response orderCreateResponce = UserClient.sendPostOrderCreate(order,tokenIncorrect);
-        Assert.assertEquals("Order has not created",false,orderCreateResponce.then().extract().path("success"));
+        Assert.assertEquals("Order shouldn't be created",false,orderCreateResponce.then().extract().path("success"));
     }
 
     @Test
@@ -125,7 +125,7 @@ public class UserOrderTest {
         Assert.assertEquals("Unauthorized order shouldn't be created ",false,orderCreateResponse.then().extract().path("success"));
     }
 
-
+    @Ignore
     @Test
     @DisplayName("Order failed. incorrect shorter value - not from ingredient list. ")
     @Description("Order  can't be created with ingredient incorrect shorter value ingredients wih authorization ")
@@ -153,24 +153,11 @@ public class UserOrderTest {
 
     }
 
-    @Test
-    @DisplayName("Order failed. Ingredients = incorrect + correct. ")
-    @Description("Order  can't be created with ingredient incorrect + correct values with authorization ")
-    public void testOrderIngredientsIncorrectFailed() {
-        String messageError = "One or more ids provided are incorrect";
-
-        List<String> ingredientsId = Arrays.asList("61c0c5a71d1f82001bdaaaad", "61c0c5a71d1f82001bdaaa7a");
-        Order order = new Order(ingredientsId);
-
-            Response orderCreateResponce = UserClient.sendPostOrderCreate(order, token);
-        Assert.assertEquals("Order shouldn't be created if ingredient key has incorrect value  ",
-                false,orderCreateResponce.then().extract().path("success"));
-        Assert.assertEquals("Another message if ingredient has incorrect hash-value",
-                messageError,orderCreateResponce.then().extract().path("message"));
-    }
 
     @After
     public void clearUsers(){
-        UserClient.sendDeleteUser(token);
+        if(token!= null) {
+            UserClient.sendDeleteUser(token);
+        }
     }
 }

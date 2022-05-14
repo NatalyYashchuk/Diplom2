@@ -1,6 +1,8 @@
 package api;
 
 import io.qameta.allure.Step;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
 import model.*;
 

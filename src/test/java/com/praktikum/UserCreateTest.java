@@ -95,7 +95,9 @@ public class UserCreateTest {
 
     @After
     public void clearUsers(){
-    UserClient.sendDeleteUser(token);
+        if(token != null) {
+            UserClient.sendDeleteUser(token);
+        };
     }
 
 }

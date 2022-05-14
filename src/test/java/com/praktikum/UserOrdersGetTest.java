@@ -36,8 +36,6 @@ public class UserOrdersGetTest {
 
         userCreateResponse = UserClient.sendPostRegisterUser(user);
         token = userCreateResponse.then().extract().path("accessToken");
-        System.out.println(userData.get(0) + " " + userData.get(1) + " " + userData.get(2) + "\n" + token);
-
 
     }
     @Test
@@ -70,6 +68,8 @@ public class UserOrdersGetTest {
 
     @After
     public void clearUsers(){
-        UserClient.sendDeleteUser(token);
+        if(token != null) {
+            UserClient.sendDeleteUser(token);
+        }
     }
 }
