@@ -125,20 +125,6 @@ public class UserOrderTest {
         Assert.assertEquals("Unauthorized order shouldn't be created ",false,orderCreateResponse.then().extract().path("success"));
     }
 
-    @Ignore
-    @Test
-    @DisplayName("Order failed. incorrect shorter value - not from ingredient list. ")
-    @Description("Order  can't be created with ingredient incorrect shorter value ingredients wih authorization ")
-    public void testOrderIngredientIncorrectShortValueFailed() {
-        List<String> ingredientsId = Arrays.asList("61c0c5a71d1f82001ad");
-        Order order = new Order(ingredientsId);
-
-        Response orderCreateResponce = UserClient.sendPostOrderCreate(order, token);
-        Assert.assertEquals("Incorrect ingredient value should back StatusCode = 500",
-                500,orderCreateResponce.then().extract().statusCode());
-
-    }
-
 
     @Test
     @DisplayName("Order failed. incorrect value - not from ingredient list. ")

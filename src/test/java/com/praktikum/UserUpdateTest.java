@@ -43,7 +43,7 @@ public class UserUpdateTest {
 
         updateDataModel = new UpdateUser(userData.get(3),userData.get(4),userData.get(5));
 
-        userCreateResponse = UserClient.sendPostRegisterUser(user);                  //create
+        userCreateResponse = UserClient.sendPostRegisterUser(user);
         token = userCreateResponse.then().extract().path("accessToken");
         refreshToken = userCreateResponse.then().extract().path("refreshToken");
     }
@@ -52,7 +52,7 @@ public class UserUpdateTest {
     @DisplayName("Authorized user updates credetials successfully /api/auth/register")
     @Description("User send patch request with authorization token")
     public void testAuthorizedUserDataUpdateSuccessfully() {
-        Response userLoginResponse = UserClient.sendPostLoginUser(userAuthorization); //login
+        Response userLoginResponse = UserClient.sendPostLoginUser(userAuthorization);
         token = userLoginResponse.then().extract().path("accessToken");
         refreshToken = userLoginResponse.then().extract().path("refreshToken");
 
@@ -66,7 +66,7 @@ public class UserUpdateTest {
         UserClient.sendPostLogoutUser(new UserLogout(refreshToken));
 
         userAuthorization = new UserAuthorization(userData.get(3),userData.get(4));
-        Response userLoginResponse2 = UserClient.sendPostLoginUser(userAuthorization); //login
+        Response userLoginResponse2 = UserClient.sendPostLoginUser(userAuthorization);
         Boolean successLogin = userLoginResponse2.then().extract().path("success");
         Assert.assertEquals("Updated password hasn't passed", true, successLogin);
     }
